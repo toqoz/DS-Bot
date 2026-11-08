@@ -16,6 +16,10 @@ This checkout is a personal fork of [Fei2411/DS-Bot](https://github.com/Fei2411/
 | `toqoz/main` | Integration branch: upstream plus one commit holding every `toqoz/feat/*`. Its message is one bare gist URL. |
 | `toqoz/ops` | Orphan branch holding this file, `sync.sh` and `apply.sh`. Never merged into the code. |
 
+The fork's own branches are those `toqoz/*` refs and nothing else: upstream branches
+are read through the `upstream` remote, never copied into the fork. The fork's default
+branch is `toqoz/main`.
+
 Hard rules:
 
 - A `toqoz/feat/*` branch holds exactly one non-merge commit with a normal commit message.
@@ -36,7 +40,13 @@ cd ~/src/github.com/toqoz/DS-Bot
 npm --prefix ds-bot ci                                   # esbuild for the bundle
 npm --prefix ds-bot run harness                          # DSH packages for the tests and the lint
 git worktree add .git/wt/ops toqoz/ops                   # the procedure
+ln -s ../../.git/wt/ops/.agents/skills/ds-bot-personal-fork .agents/skills/ds-bot-personal-fork
+printf '.agents/skills/ds-bot-personal-fork\n' >> .git/info/exclude
 ```
+
+The link is untracked and excluded locally; it survives branch switches and
+`git reset --hard`, and it is how DSH finds this skill from a session started in
+the checkout.
 
 `sync.sh` reads esbuild from the main checkout's `ds-bot/node_modules`; `apply.sh` writes the built package into the profile DSH runs.
 
