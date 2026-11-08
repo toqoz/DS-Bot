@@ -81,14 +81,26 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Regenerate the committed bundle from the branch's own sources, so a rewritten
+# Regenerate the committed bundles from the branch's own sources, so a rewritten
 # branch never ships a client.js built from another base.
+#
+# node_modules is copied, not linked: esbuild writes the path it resolved each
+# module from, so a symlinked tree changes every such comment in the output.
 rebuild_client() {
   local path=$1
-  ln -sfn "$modules" "$path/ds-bot/node_modules"
+  local dest="$path/ds-bot/node_modules"
+  rm -rf "$dest"
+  if ! cp -Rc "$modules" "$dest" 2>/dev/null; then
+    cp -R "$modules" "$dest"
+  fi
   node "$path/ds-bot/scripts/build-client.mjs"
   node "$path/ds-bot/scripts/build-client.mjs" --check
-  git -C "$path" add ds-bot/client.js
+  rm -rf "$dest"
+  if [ -n "$(git -C "$path" status --porcelain --ignored=no | grep 'ds-bot/node_modules' || true)" ]; then
+    echo "sync.sh: node_modules leaked into $path; the tree was not staged" >&2
+    exit 1
+  fi
+  git -C "$path" add ds-bot/client.js ds-bot/office.js
 }
 
 echo "fetching $UPSTREAM_REMOTE $UPSTREAM_BRANCH"
