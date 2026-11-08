@@ -21,6 +21,32 @@ DS Bot is an open-source project built on [DeepSeek Harness](https://github.com/
 
 ![Say one sentence to Chief, and it sets up the bots and the group chat](docs/images/team.png)
 
+## This fork (toqoz/DS-Bot)
+
+A personal fork: the changes on top of upstream are listed in [the fork note](https://gist.github.com/toqoz/09b2a68c7029f0d85ec47005ddd36e56) and are not proposed upstream. `toqoz/main` is upstream `main` plus those changes, and `ds-bot/client.js` is committed, so the branch installs without a build step.
+
+As a plugin in DSH, install the fork's branch instead of the npm package (needs Git):
+
+- DSH Desktop: **Plugins** → **Add plugin**, and in **Package name or address** enter `github:toqoz/DS-Bot#toqoz/main&path:/ds-bot`.
+- DSH Web: `dsh plugin --profile web add 'github:toqoz/DS-Bot#toqoz/main&path:/ds-bot'`.
+
+From a checkout instead (this is how the daily upstream import runs it): the profile must already hold `ds-bot` at the version the checkout is based on, and the script copies the built plugin over that install. It refuses when the versions differ, and DS Bot's own update reinstalls the npm package and drops the copied files, so run it again afterwards.
+
+```sh
+git clone https://github.com/toqoz/DS-Bot && cd DS-Bot
+npm --prefix ds-bot ci
+git worktree add .git/wt/ops toqoz/ops
+.git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh
+```
+
+`apply.sh` writes into the `web` profile by default; pass `--profile desktop` for another one.
+
+Everything below the plugin install applies unchanged.
+
+Updates: for the branch install, run the same command again once `toqoz/main` has moved. For the checkout, run `.git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/sync.sh --push`, then `git switch toqoz/main`, `git reset --hard toqoz/main` and `apply.sh` again.
+
+The desktop app, the Docker image and the npm package are upstream's and do not carry this fork.
+
 ## Install
 
 **Desktop app (Windows, macOS, Linux)**
