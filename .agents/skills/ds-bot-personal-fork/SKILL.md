@@ -65,12 +65,13 @@ git commit -m "<commit message>"
 Then bring the checkout you run from up to date, verify, and apply:
 
 ```sh
+git switch toqoz/main
 git reset --hard toqoz/main
 cd ds-bot && npm test && node scripts/build-client.mjs --check && cd ..
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh
 ```
 
-`sync.sh` never moves the caller's checkout; the reset is what applies the rebuild. `apply.sh` copies the package into the profile DSH runs; reload the page afterwards.
+Switch before resetting: `sync.sh` never moves the caller's checkout, and resetting while a change branch is checked out would move that branch to the integration commit. `apply.sh` copies the package into the profile DSH runs and refuses when the profile holds another version; reload the page afterwards.
 
 ## Change an existing branch
 
@@ -80,6 +81,7 @@ git switch toqoz/feat/<slug>
 git add -A
 git commit --amend --no-edit
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/sync.sh --push
+git switch toqoz/main
 git reset --hard toqoz/main
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh
 ```
@@ -104,6 +106,7 @@ The scheduled task runs this; a human runs it the same way.
 ```sh
 git fetch upstream main --prune
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/sync.sh --push
+git switch toqoz/main
 git reset --hard toqoz/main
 cd ds-bot && npm test && cd ..
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh

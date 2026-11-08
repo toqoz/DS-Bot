@@ -50,6 +50,17 @@ if [ ! -f "$src/client.js" ]; then
 fi
 node "$src/scripts/build-client.mjs" --check
 
+# Files from two releases must not mix: the version the profile installed is the
+# base this checkout was built on, and its package.json is what the plugin
+# reports and the update check compares against.
+fork_version=$(node -p "require('$src/package.json').version")
+installed_version=$(node -p "require('$dst/package.json').version" 2>/dev/null || echo '?')
+if [ "$fork_version" != "$installed_version" ]; then
+  echo "apply.sh: the profile holds ds-bot $installed_version, this checkout is $fork_version" >&2
+  echo "apply.sh: install ds-bot@$fork_version in the profile first, then rerun" >&2
+  exit 1
+fi
+
 # package.json and the lock stay the profile's: pnpm installed this package and
 # its version string is what the update check compares against.
 rsync -a --delete \
