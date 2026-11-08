@@ -11812,6 +11812,7 @@ var ZH = {
   "GitHub addresses must start with https://": "GitHub 地址必须以 https:// 开头",
   "This DSH cannot load connectors": "这个 DSH 不能加载连接器",
   "No such connector": "没有这个连接器",
+  "Classic": "经典",
   "Classic Agent mode": "经典 Agent 模式",
   "Bot mode": "Bot 模式",
   "Switch": "切换",
@@ -15666,7 +15667,7 @@ button:hover .bt-you{background:color-mix(in srgb,var(--bt-ink) 9%,var(--bt-side
 .bt-pick:hover .bt-mark[data-state=idle] .bt-eye{animation:bt-blink .5s linear 1}
 .bt-select{width:100%;height:34px;box-sizing:border-box;border-radius:8px;border:1px solid var(--bt-line);background:var(--bt-card);color:var(--bt-ink);padding:0 8px;font:inherit;font-size:13px;outline:none}
 :is(.bt-input,.bt-select,.bt-textarea):focus-visible{border-color:var(--bt-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--bt-accent) 22%,transparent)}
-:is(.bt-round,.bt-icon-btn,.bt-soft,.bt-send,.bt-mini,.bt-pill,.bt-plus,.bt-mic,.bt-voice,.bt-account,.bt-title-toggle,.bt-settings-close,.bt-avatar-trigger,.bt-shape,.bt-color,.bt-swatch,.bt-pick,.bt-more,.bt-mem-row,.bt-mem-send):focus-visible{outline:2px solid var(--bt-accent);outline-offset:2px}
+:is(.bt-round,.bt-icon-btn,.bt-soft,.bt-send,.bt-mini,.bt-pill,.bt-plus,.bt-mic,.bt-voice,.bt-account,.bt-title-toggle,.bt-settings-close,.bt-avatar-trigger,.bt-shape,.bt-color,.bt-swatch,.bt-pick,.bt-more,.bt-mem-row,.bt-mem-send,.bt-classic):focus-visible{outline:2px solid var(--bt-accent);outline-offset:2px}
 :is(.bt-row,.bt-tile,.bt-tab,.bt-avedit-tab,.bt-settings-item,.bt-menu button,.bt-option,.bt-palette-row,button.bt-set-row):focus-visible{outline:2px solid var(--bt-accent);outline-offset:-2px}
 .bt-note{font-size:12px;line-height:16px;color:var(--bt-ink-2);margin-top:6px}
 .bt-set-hint .bt-note.bt-danger{color:var(--bt-danger)}
@@ -27948,12 +27949,19 @@ function TeamSidebar(props) {
     main ? (0, import_react34.createElement)(BotRow, { ...rowProps, bot: main, marked: markedUnread[main.id] === true }) : roster.ready ? null : (0, import_react34.createElement)("div", { className: "bt-hint" }, bootFailed ? bootHint() : t("Setting up your Main Bot…")),
     (0, import_react34.createElement)("span", { className: "bt-rail-sep", "aria-hidden": true })
   );
-  const foot = wideContent ? (0, import_react34.createElement)("div", { className: "bt-leftcol-foot" }, (0, import_react34.createElement)(AccountLauncher, { seat: false, actions }), (0, import_react34.createElement)(PluginsButton, { actions })) : (0, import_react34.createElement)(
+  const foot = wideContent ? (0, import_react34.createElement)(
+    "div",
+    { className: "bt-leftcol-foot" },
+    (0, import_react34.createElement)(AccountLauncher, { seat: false, actions }),
+    (0, import_react34.createElement)(PluginsButton, { actions }),
+    actions.setSurface ? (0, import_react34.createElement)(ClassicReturn, { wide: true, actions }) : null
+  ) : (0, import_react34.createElement)(
     "div",
     { className: "bt-leftcol-foot bt-leftcol-foot-rail" },
     (0, import_react34.createElement)("button", { type: "button", className: "bt-round", "aria-label": t("New…"), title: t("New…"), onClick: () => actions.openNewChat("new") }, (0, import_react34.createElement)(PlusIcon)),
     (0, import_react34.createElement)(AccountLauncher, { seat: false, actions }),
-    (0, import_react34.createElement)(PluginsButton, { actions })
+    (0, import_react34.createElement)(PluginsButton, { actions }),
+    actions.setSurface ? (0, import_react34.createElement)(ClassicReturn, { wide: false, actions }) : null
   );
   const content = (0, import_react34.createElement)(
     "div",
@@ -28422,6 +28430,14 @@ function BotReturn({ wide, useSurface, useRoster, actions }) {
     wide ? (0, import_react34.createElement)("span", { className: "bt-return-swap", "aria-hidden": true }, (0, import_react34.createElement)(SwitchIcon)) : null
   );
 }
+function ClassicReturn({ wide, actions }) {
+  return (0, import_react34.createElement)(
+    "button",
+    { type: "button", className: "bt-classic", "aria-label": t("Classic Agent mode"), title: t("Classic Agent mode"), onClick: () => actions.setSurface("agent") },
+    (0, import_react34.createElement)(SwitchIcon),
+    wide ? (0, import_react34.createElement)("span", { className: "bt-classic-name" }, t("Classic")) : null
+  );
+}
 var RETURN_CSS = `
 .bt-return{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--bt-return-fill);color:inherit;font:inherit;font-size:14px;line-height:20px;cursor:pointer;transition:background-color .12s ease}
 .bt-return:hover{background:var(--bt-return-fill-hover)}
@@ -28433,6 +28449,12 @@ var RETURN_CSS = `
 .bt-return-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bt-return-swap{display:inline-flex;flex:none;line-height:0;opacity:.55}
 .bt-return-swap svg{width:16px;height:16px}
+.bt-classic{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border:1px solid var(--bt-line);border-radius:999px;background:var(--bt-main);color:var(--bt-ink);font:inherit;font-size:14px;line-height:20px;cursor:pointer;transition:background-color .12s ease,transform .12s ease}
+.bt-classic:hover{background:var(--bt-hover)}
+.bt-classic:active{transform:scale(.96)}
+.bt-classic svg{flex:none;width:17px;height:17px}
+.bt-classic-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt-leftcol-foot-rail .bt-classic{width:36px;padding:0;border-radius:50%}
 `;
 function BrandMark({ size = 24 }) {
   return (0, import_react34.createElement)("span", { className: "bt-brand-whale" }, (0, import_react34.createElement)(BotMark, { look: MAIN_LOOK, size }));

@@ -16,7 +16,7 @@ const { JSDOM } = createRequire(join(process.env.DSH_HARNESS ?? join(PLUGIN, '..
 // fixtures retain refs across commits and run their layout effects after each render.
 const { outputFiles } = await build({
   stdin: {
-    contents: "export { SHELL_CSS } from './src/client/styles.js'\nexport { SIDEBAR_CSS, TeamSidebar, PluginsButton } from './src/client/sidebar.js'",
+    contents: "export { SHELL_CSS } from './src/client/styles.js'\nexport { SIDEBAR_CSS, RETURN_CSS, TeamSidebar, PluginsButton } from './src/client/sidebar.js'",
     resolveDir: PLUGIN,
   },
   bundle: true, format: 'cjs', platform: 'browser', write: false, logLevel: 'silent',
@@ -42,7 +42,7 @@ const sandbox = {
   window: viewport,
 }
 runInNewContext(outputFiles[0].text, sandbox)
-const { SHELL_CSS, SIDEBAR_CSS, TeamSidebar, PluginsButton } = module.exports
+const { SHELL_CSS, SIDEBAR_CSS, RETURN_CSS, TeamSidebar, PluginsButton } = module.exports
 
 function navigationSidebar(wide, { leftDrawer = false } = {}) {
   const calls = []
@@ -610,3 +610,61 @@ test('TeamSidebar subscribes to specific ui slices rather than the whole ui obje
   }
 })
 
+
+// Both surfaces carry the switch in their own footer: the shell's footer seats
+// BotReturn in Agent mode, and the Bot column's footer seats this mirror.
+function findNode(node, match) {
+  if (Array.isArray(node)) {
+    for (const child of node) {
+      const found = findNode(child, match)
+      if (found) return found
+    }
+    return null
+  }
+  if (!node || typeof node !== 'object') return null
+  if (match(node)) return node
+  return findNode(node.props?.children, match)
+}
+
+for (const pref of ['open', 'rail']) {
+  const render = (actions) => TeamSidebar({
+    wide: false, actions,
+    useRoster: pick => pick({ bots: [], rooms: [], agents: [], byId: {}, ready: true, exchangeTurns: {} }),
+    useUi: pick => pick({ unread: {} }), useRegistry: pick => pick({}),
+    useSessions: pick => pick({ ids: [], byId: {} }), useUpdate: () => ({}),
+    useSidebarPref: pick => pick(pref),
+    useSessionStatus: pick => pick(new Map()),
+    useSessionRetainInfo: () => null,
+    useActivity: pick => pick({}),
+    useWork: pick => pick({ waiting: {}, rooms: {}, approvals: [] }),
+  })
+  const footOf = tree => findNode(tree, node => node.props?.className?.split(' ').includes('bt-leftcol-foot'))
+
+  test(`the Bot column footer switches back to the Agent page (${pref})`, () => {
+    viewport.innerWidth = 1280
+    const calls = []
+    const actions = Object.fromEntries(['openSession', 'openAgent', 'openAgentSession', 'newAgentSession', 'openMenu', 'openPalette', 'openNewChat', 'toggleSidebar', 'clearUnread'].map(name => [name, () => {}]))
+    actions.setSurface = mode => { calls.push(mode) }
+    const foot = footOf(render(actions))
+    assert.ok(foot, 'the Bot column has a footer')
+    const seat = foot.props.children.find(node => node?.type?.name === 'ClassicReturn')
+    assert.ok(seat, 'the footer carries the switch back')
+    const button = seat.type(seat.props)
+    assert.equal(button.props.className, 'bt-classic')
+    assert.equal(button.props['aria-label'], 'Classic Agent mode')
+    assert.equal(button.props.title, 'Classic Agent mode')
+    button.props.onClick()
+    assert.deepEqual(calls, ['agent'])
+    // The rail has no room for the label, so the control keeps its icon and name.
+    assert.equal(button.props.children[1], pref === 'open' ? button.props.children[1] : null)
+    if (pref === 'open') assert.equal(button.props.children[1].props.children.join(''), 'Classic')
+    assert.match(RETURN_CSS, /\.bt-leftcol-foot-rail \.bt-classic\{width:36px;padding:0;border-radius:50%\}/)
+  })
+
+  test(`the footer seat is withdrawn when the surface actions are absent (${pref})`, () => {
+    viewport.innerWidth = 1280
+    const foot = footOf(render(Object.fromEntries(['openSession', 'openAgent', 'openAgentSession', 'newAgentSession', 'openMenu', 'openPalette', 'openNewChat', 'toggleSidebar', 'clearUnread'].map(name => [name, () => {}]))))
+    assert.ok(foot)
+    assert.equal(foot.props.children.some(node => node?.type?.name === 'ClassicReturn'), false)
+  })
+}
