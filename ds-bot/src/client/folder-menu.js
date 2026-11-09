@@ -12,15 +12,16 @@ const Tick = ({ on }) => h('span', { className: 'bt-model-tick', 'aria-hidden': 
 // Where a Bot, or every member of a group, works. `value` is the saved folder; without
 // one a Bot works in the team workspace and a group member in its own folder. `onPick`
 // gets the chosen path, or '' for that default. `team` is the menu for the team workspace
-// itself, which has no default.
-export function FolderMenu({ value, group = false, team = false, actions, run, onPick, wide = false, disabled = false }) {
+// itself, which has no default. `addOnly` is a chooser for an extra folder: it offers no
+// default and always reports a real path.
+export function FolderMenu({ value, group = false, team = false, addOnly = false, actions, run, onPick, wide = false, disabled = false }) {
   const { isOpen, shownPlace, leaving, button, menu, open, close } = useAnchoredMenu()
   const [info, setInfo] = useState(null)
   const [view, setView] = useState('list')
   const [draft, setDraft] = useState('')
   const [listing, setListing] = useState(null)
   const [problem, setProblem] = useState('')
-  const fallback = group ? t("Each Bot's own folder") : t('Team workspace')
+  const fallback = addOnly ? t('Add a folder') : group ? t("Each Bot's own folder") : t('Team workspace')
   const toggle = () => {
     if (isOpen) { close(); return }
     setView('list')
@@ -49,7 +50,7 @@ export function FolderMenu({ value, group = false, team = false, actions, run, o
   const known = info?.folders ?? []
   const folders = value && !known.some(folder => folder.path === value) ? [{ path: value, title: folderName(value) }, ...known] : known
   const listView = h('div', { key: 'list', className: 'bt-folder-view' },
-    team ? null : h('button', { type: 'button', role: 'menuitemradio', 'aria-checked': !value, title: group ? undefined : info?.team ?? undefined, onClick: () => choose('') },
+    team || addOnly ? null : h('button', { type: 'button', role: 'menuitemradio', 'aria-checked': !value, title: group ? undefined : info?.team ?? undefined, onClick: () => choose('') },
       h('span', { className: 'bt-menu-label' }, fallback), h(Tick, { on: !value })),
     folders.length > 0 ? h('div', { className: 'bt-model-group', role: 'presentation' }, t('Folders')) : null,
     folders.map(folder => h('button', { key: folder.path, type: 'button', role: 'menuitemradio', 'aria-checked': folder.path === value, title: folder.path, onClick: () => choose(folder.path) },
@@ -83,14 +84,14 @@ export function FolderMenu({ value, group = false, team = false, actions, run, o
   return h(Fragment, null,
     h('button', {
       ref: button, type: 'button', className: 'bt-model-trigger', 'data-wide': wide || undefined,
-      'aria-haspopup': 'menu', 'aria-expanded': isOpen, 'aria-label': team ? t('Team workspace: {folder}', { folder: value ?? '' }) : t('Working folder: {folder}', { folder: value ?? fallback }),
-      title: value, onClick: toggle, disabled,
+      'aria-haspopup': 'menu', 'aria-expanded': isOpen, 'aria-label': addOnly ? t('Add a folder') : team ? t('Team workspace: {folder}', { folder: value ?? '' }) : t('Working folder: {folder}', { folder: value ?? fallback }),
+      title: addOnly ? undefined : value, onClick: toggle, disabled,
     },
     h('span', { className: 'bt-model-copy' },
-      h('span', { className: 'bt-model-name' }, value ? folderName(value) : fallback),
-      value ? h('span', { className: 'bt-model-provider' }, value) : null),
+      h('span', { className: 'bt-model-name' }, addOnly || !value ? fallback : folderName(value)),
+      addOnly || !value ? null : h('span', { className: 'bt-model-provider' }, value)),
     h(Caret)),
-    shownPlace ? createPortal(h('div', { ref: menu, className: `bt-menu bt-model-menu bt-folder-menu${shownPlace.bottom !== undefined ? ' bt-menu-up' : ''}`, role: 'menu', 'aria-label': team ? t('Team workspace') : t('Working folder'), style: shownPlace, 'data-leaving': leaving || undefined },
+    shownPlace ? createPortal(h('div', { ref: menu, className: `bt-menu bt-model-menu bt-folder-menu${shownPlace.bottom !== undefined ? ' bt-menu-up' : ''}`, role: 'menu', 'aria-label': addOnly ? t('Add a folder') : team ? t('Team workspace') : t('Working folder'), style: shownPlace, 'data-leaving': leaving || undefined },
       shownView,
       problem ? h('div', { className: 'bt-folder-error', role: 'alert' }, problem) : null), document.body) : null)
 }
