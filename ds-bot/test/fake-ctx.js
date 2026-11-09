@@ -101,6 +101,20 @@ export function fakeContext({ services = {} } = {}) {
       const dispose = execute()
       if (typeof dispose === 'function') disposers.push(dispose)
     },
+    // The real context waits until every named service exists and then calls back with
+    // a scope; the fake has them already or never will.
+    inject(names, callback) {
+      const list = Array.isArray(names) ? names : Object.keys(names)
+      const scope = {
+        get: name => services[name],
+        effect: (execute, label) => ctx.effect(execute, label),
+      }
+      for (const name of list) {
+        if (services[name] !== undefined) scope[name] = services[name]
+      }
+      if (list.every(name => services[name] !== undefined)) callback(scope)
+      return () => {}
+    },
     // Settles once every cleanup has, including the writes some of them wait for.
     dispose() {
       return Promise.allSettled(disposers.splice(0).reverse().map(dispose => dispose()))

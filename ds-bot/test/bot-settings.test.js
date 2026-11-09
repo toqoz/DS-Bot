@@ -29,8 +29,8 @@ function walk(node, found = []) {
   walk(node.props?.children, found)
   return found
 }
-function settings(bot, { main = false, rooms = [] } = {}) {
-  const roster = { mainBotIds: main ? [bot.id] : [], mainBotId: main ? bot.id : null, rooms, models: [], memory: false }
+function settings(bot, { main = false, rooms = [], ...rest } = {}) {
+  const roster = { mainBotIds: main ? [bot.id] : [], mainBotId: main ? bot.id : null, rooms, models: [], memory: false, ...rest }
   return walk(BotSettingsForm({ bot, roster, actions: {}, run: fn => fn }))
 }
 const bot = { id: 'b', name: 'Writer', role: 'Writer', instructions: '', capabilities: [] }
@@ -60,4 +60,19 @@ test('a private Bot can always turn privacy off, and cannot become Main or be du
   assert.equal(privacy.props.disabled, false)
   assert.equal(tree.find(node => node.props?.label === 'Main Bot').props.disabled, true)
   assert.equal(tree.some(node => node.props?.onClick && node.props.className === 'bt-set-row bt-bs-row' && JSON.stringify(node).includes('Duplicate')), false)
+})
+
+test('extra folders are listed, and a Bot with them cannot become private', () => {
+  const withRoots = settings({ ...bot, workDir: '/work', writableRoots: ['/a/shared', '/b/shared'] })
+  const privacy = withRoots.find(node => node.props?.label === 'Private')
+  assert.equal(privacy.props.disabled, true)
+  assert.equal(privacy.props.hint, 'Remove its extra folders first.')
+
+  const editor = withRoots.find(node => node.type?.name === 'RootsEditor')
+  assert.deepEqual(editor.props.bot.writableRoots, ['/a/shared', '/b/shared'])
+})
+
+test('extra folders are hidden where the sandbox policy cannot take grants', () => {
+  const tree = settings({ ...bot, workDir: '/work', writableRoots: ['/a'] }, { writableRootsSupported: false })
+  assert.equal(tree.some(node => node.props?.title === 'Extra folders'), false)
 })

@@ -6,6 +6,7 @@ import { mkdir, realpath, stat } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { basename, dirname, isAbsolute, join, resolve, sep } from 'node:path'
 import { unquote } from './text.js'
+import { install as installSandboxRoots } from './sandbox-roots.js'
 
 const PICK_TIMEOUT_MS = 10 * 60_000
 
@@ -111,6 +112,37 @@ export function install(rt) {
   async function workFolder(path) {
     if (await guarded(path)) throw new Error(`${path} holds DeepSeek Harness data, so Bots cannot work there`)
     return path === await realTeam() ? undefined : path
+  }
+
+  // Extra folders a Bot may also write in. Unlike a working folder, the team workspace
+  // is a real answer here: a Bot working outside it may still need to write in it.
+  async function cleanRoot(input) {
+    const text = unquote(input)
+    if (text === '') throw new Error('Give the full path of the folder')
+    const expanded = expandHome(text)
+    if (!isAbsolute(expanded)) throw new Error(`Give the full path of the folder, not ${text}`)
+    let path
+    try {
+      path = await realpath(expanded)
+    } catch {
+      throw new Error(`There is no folder at ${text}`)
+    }
+    if (!(await isFolder(path))) throw new Error(`${text} is a file, not a folder`)
+    if (await guarded(path)) throw new Error(`${path} holds DeepSeek Harness data, so Bots cannot write there`)
+    return path
+  }
+
+  // `null` clears the list; `undefined` leaves it unchanged at the caller.
+  async function cleanWritableRoots(input) {
+    if (input === undefined) return undefined
+    if (input === null) return []
+    if (!Array.isArray(input)) throw new Error('Extra folders must be a list of folder paths')
+    const roots = []
+    for (const item of input) {
+      const root = await cleanRoot(item)
+      if (!roots.includes(root)) roots.push(root)
+    }
+    return roots
   }
 
   // The user moves the team workspace. Bots and groups without a folder of their own move on
@@ -226,5 +258,9 @@ export function install(rt) {
     }
   }
 
-  Object.assign(rt, { teamFolder, defaultTeamFolder, workDirOf, sessionFolder, isFolder, real, realBeyond, folderAt, cleanWorkDir, workFolder, inData, setTeamWorkspace, sessionsOfBot, approveFolder, folderEndpoint })
+  Object.assign(rt, { teamFolder, defaultTeamFolder, workDirOf, sessionFolder, isFolder, real, realBeyond, folderAt, cleanWorkDir, cleanWritableRoots, workFolder, inData, setTeamWorkspace, sessionsOfBot, approveFolder, folderEndpoint })
+
+  // The policy provider is optional; installing it here keeps it in the folder
+  // module's place in the fixed module order.
+  installSandboxRoots(rt)
 }
