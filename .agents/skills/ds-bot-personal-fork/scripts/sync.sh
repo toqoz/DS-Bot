@@ -207,6 +207,17 @@ current_tree=$(git rev-parse --verify "refs/heads/$INTEGRATION_BRANCH^{tree}" 2>
 if [ "$new_tree" = "$current_tree" ] && [ "$message" = "$(git log -1 --format=%s "$INTEGRATION_BRANCH" 2>/dev/null || true)" ]; then
   echo "$INTEGRATION_BRANCH already matches upstream and every change; nothing to rebuild"
   git worktree remove --force "$build_path"
+  # The rebase above still rewrites change branches, so publishing belongs here
+  # too: an amended message on one branch must reach the remote even when the
+  # integration branch itself does not move.
+  if [ "$push" = true ]; then
+    for branch in "${changes[@]}"; do
+      echo "pushing $branch"
+      git push --no-verify --force-with-lease --set-upstream origin "$branch"
+    done
+    echo "pushing $INTEGRATION_BRANCH"
+    git push --no-verify --force-with-lease origin "$INTEGRATION_BRANCH"
+  fi
   exit 0
 fi
 old_commit=$(git rev-parse --verify "refs/heads/$INTEGRATION_BRANCH" 2>/dev/null || true)

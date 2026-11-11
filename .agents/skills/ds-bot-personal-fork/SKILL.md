@@ -112,7 +112,7 @@ cd ds-bot && npm test && cd ..
 .git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh
 ```
 
-`upstream/main` is DS Bot's released branch, so an import moves between releases. After DS Bot's in-app update reinstalls the npm package, the profile holds the npm copy again: rerun `apply.sh` to put the fork back.
+`upstream/main` is DS Bot's released branch, so an import moves between releases. When the checkout's version differs from the one the profile installed, `apply.sh` installs that release into the profile first and then copies the fork's files over it, so one import run leaves the profile on the new release. `--no-upgrade` stops at the mismatch instead. After DS Bot's in-app update reinstalls the npm package, the profile holds the npm copy again: rerun `apply.sh` to put the fork back.
 
 ## The script
 
