@@ -109,8 +109,10 @@ git fetch upstream main --prune
 git switch toqoz/main
 git reset --hard toqoz/main
 cd ds-bot && npm test && cd ..
-.git/wt/ops/.agents/skills/ds-bot-personal-fork/scripts/apply.sh
+mkdir -p .agents/state && : > .agents/state/apply-pending
 ```
+
+A run inside a Bot cannot run `apply.sh`: the profile it must write sits under the DSH data root, and DS Bot refuses to grant a Bot write access there. The run leaves `.agents/state/apply-pending` instead, and the `ds-bot-apply` launchd agent in the machine configuration (`~/src/github.com/toqoz/config`, `home/deepseek-harness/`) applies the fork from outside that sandbox every five minutes, restarting DSH when the release changed. It logs to `$DEEPSEEK_HARNESS_HOME/log/ds-bot-apply.log` and keeps the marker when a step fails, so the next run retries and the next morning's report can read what happened. A human outside a sandbox runs `apply.sh` directly.
 
 `upstream/main` is DS Bot's released branch, so an import moves between releases. When the checkout's version differs from the one the profile installed, `apply.sh` installs that release into the profile first and then copies the fork's files over it, so one import run leaves the profile on the new release. `--no-upgrade` stops at the mismatch instead. After DS Bot's in-app update reinstalls the npm package, the profile holds the npm copy again: rerun `apply.sh` to put the fork back.
 
