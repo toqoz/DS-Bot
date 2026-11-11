@@ -93,14 +93,20 @@ rsync -a --delete \
 
 # The fork can depend on packages the release does not carry, since its own
 # features add them, while the profile keeps the release's package.json.
-# Install whatever the checkout declares and that package lacks, so the plugin's
-# imports resolve after the overlay.
+# Install whatever the checkout declares and the profile does not already
+# resolve, so the plugin's imports work and a routine run stays a plain copy.
 missing=$(node -e '
+  const { existsSync } = require("node:fs")
+  const { join } = require("node:path")
   const want = require(process.argv[1]).dependencies ?? {}
   let have = {}
   try { have = require(process.argv[2]).dependencies ?? {} } catch {}
-  for (const [name, range] of Object.entries(want)) if (!have[name]) console.log(`${name}@${range}`)
-' "$src/package.json" "$dst/package.json")
+  const modules = process.argv[3]
+  for (const [name, range] of Object.entries(want)) {
+    if (have[name] || existsSync(join(modules, name))) continue
+    console.log(`${name}@${range}`)
+  }
+' "$src/package.json" "$dst/package.json" "$profile/node_modules")
 if [ -n "$missing" ]; then
   echo "apply.sh: the fork needs dependencies the release lacks:" >&2
   for spec in $missing; do echo "  $spec" >&2; done
