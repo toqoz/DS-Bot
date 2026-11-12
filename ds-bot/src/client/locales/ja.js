@@ -1,8 +1,13 @@
 // Japanese (ja) localization for DS Bot client and DSH settings namespaces.
 
 export const JA = {
+  "Add a folder": "フォルダを追加",
   "Android beta": "Android ベータ版",
   "Cannot reach the Server. Trying again…": "サーバーに接続できません。再試行しています…",
+  "Classic": "クラシック",
+  "Extra folders": "追加フォルダ",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "この Bot が作業フォルダ以外に書き込めるフォルダ。追加できるのはあなただけです。",
+  "No extra folders.": "追加フォルダはありません。",
   "No phones yet": "スマートフォンはまだありません",
   "Off. Phones cannot reach this computer.": "オフ。スマートフォンからこのコンピューターに接続できません。",
   "On. Paired phones can use DS Bot here.": "オン。ペアリング済みのスマートフォンからここで DS Bot を使えます。",
@@ -12,6 +17,10 @@ export const JA = {
   "Phone access": "スマートフォンからのアクセス",
   "Phone app": "スマートフォンアプリ",
   "Phones": "スマートフォン",
+  "Private Bots cannot have extra folders.": "プライベート Bot に追加フォルダは設定できません。",
+  "Remove extra folder {folder}": "追加フォルダ {folder} を削除",
+  "Remove folder": "フォルダを削除",
+  "Remove its extra folders first.": "先にこの Bot の追加フォルダを削除してください。",
   "Scan this code with the DS Bot app on your phone.": "スマートフォンの DS Bot アプリでこのコードをスキャンしてください。",
   "Server": "サーバー",
   "Show a QR code": "QR コードを表示",

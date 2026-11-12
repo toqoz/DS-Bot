@@ -123,8 +123,13 @@ function convertHostErrors(pairs) {
 
 // src/client/locales/ja.js
 var JA = {
+  "Add a folder": "フォルダを追加",
   "Android beta": "Android ベータ版",
   "Cannot reach the Server. Trying again…": "サーバーに接続できません。再試行しています…",
+  "Classic": "クラシック",
+  "Extra folders": "追加フォルダ",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "この Bot が作業フォルダ以外に書き込めるフォルダ。追加できるのはあなただけです。",
+  "No extra folders.": "追加フォルダはありません。",
   "No phones yet": "スマートフォンはまだありません",
   "Off. Phones cannot reach this computer.": "オフ。スマートフォンからこのコンピューターに接続できません。",
   "On. Paired phones can use DS Bot here.": "オン。ペアリング済みのスマートフォンからここで DS Bot を使えます。",
@@ -134,6 +139,10 @@ var JA = {
   "Phone access": "スマートフォンからのアクセス",
   "Phone app": "スマートフォンアプリ",
   "Phones": "スマートフォン",
+  "Private Bots cannot have extra folders.": "プライベート Bot に追加フォルダは設定できません。",
+  "Remove extra folder {folder}": "追加フォルダ {folder} を削除",
+  "Remove folder": "フォルダを削除",
+  "Remove its extra folders first.": "先にこの Bot の追加フォルダを削除してください。",
   "Scan this code with the DS Bot app on your phone.": "スマートフォンの DS Bot アプリでこのコードをスキャンしてください。",
   "Server": "サーバー",
   "Show a QR code": "QR コードを表示",
@@ -2394,8 +2403,13 @@ var DSH_JA = {
 
 // src/client/locales/ko.js
 var KO = {
+  "Add a folder": "폴더 추가",
   "Android beta": "Android 베타",
   "Cannot reach the Server. Trying again…": "서버에 연결할 수 없습니다. 다시 시도하는 중…",
+  "Classic": "클래식",
+  "Extra folders": "추가 폴더",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "이 Bot이 작업 폴더 외에도 쓸 수 있는 폴더입니다. 추가할 수 있는 사람은 사용자뿐입니다.",
+  "No extra folders.": "추가 폴더가 없습니다.",
   "No phones yet": "아직 휴대폰이 없습니다",
   "Off. Phones cannot reach this computer.": "꺼짐. 휴대폰에서 이 컴퓨터에 연결할 수 없습니다.",
   "On. Paired phones can use DS Bot here.": "켜짐. 페어링된 휴대폰에서 여기의 DS Bot을 사용할 수 있습니다.",
@@ -2405,6 +2419,10 @@ var KO = {
   "Phone access": "휴대폰 접근",
   "Phone app": "휴대폰 앱",
   "Phones": "휴대폰",
+  "Private Bots cannot have extra folders.": "비공개 Bot에는 추가 폴더를 지정할 수 없습니다.",
+  "Remove extra folder {folder}": "추가 폴더 {folder} 삭제",
+  "Remove folder": "폴더 삭제",
+  "Remove its extra folders first.": "먼저 이 Bot의 추가 폴더를 삭제하세요.",
   "Scan this code with the DS Bot app on your phone.": "휴대폰의 DS Bot 앱으로 이 코드를 스캔하세요.",
   "Server": "서버",
   "Show a QR code": "QR 코드 표시",
@@ -4710,8 +4728,13 @@ var DSH_KO = {
 
 // src/client/locales/es.js
 var ES = {
+  "Add a folder": "Añadir una carpeta",
   "Android beta": "Android beta",
   "Cannot reach the Server. Trying again…": "No se puede conectar con el servidor. Reintentando…",
+  "Classic": "Clásico",
+  "Extra folders": "Carpetas adicionales",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Carpetas en las que este Bot también puede escribir, además de su carpeta de trabajo. Solo tú puedes añadirlas.",
+  "No extra folders.": "No hay carpetas adicionales.",
   "No phones yet": "Aún no hay teléfonos",
   "Off. Phones cannot reach this computer.": "Desactivado. Los teléfonos no pueden conectarse a este ordenador.",
   "On. Paired phones can use DS Bot here.": "Activado. Los teléfonos vinculados pueden usar DS Bot aquí.",
@@ -4721,6 +4744,10 @@ var ES = {
   "Phone access": "Acceso desde el teléfono",
   "Phone app": "App para el teléfono",
   "Phones": "Teléfonos",
+  "Private Bots cannot have extra folders.": "Los Bots privados no pueden tener carpetas adicionales.",
+  "Remove extra folder {folder}": "Quitar la carpeta adicional {folder}",
+  "Remove folder": "Quitar carpeta",
+  "Remove its extra folders first.": "Quita primero sus carpetas adicionales.",
   "Scan this code with the DS Bot app on your phone.": "Escanea este código con la app DS Bot de tu teléfono.",
   "Server": "Servidor",
   "Show a QR code": "Mostrar un código QR",
@@ -7026,8 +7053,13 @@ var DSH_ES = {
 
 // src/client/locales/fr.js
 var FR = {
+  "Add a folder": "Ajouter un dossier",
   "Android beta": "Android bêta",
   "Cannot reach the Server. Trying again…": "Impossible de joindre le serveur. Nouvel essai…",
+  "Classic": "Classique",
+  "Extra folders": "Dossiers supplémentaires",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Dossiers dans lesquels ce Bot peut aussi écrire, en plus de son dossier de travail. Vous seul pouvez les ajouter.",
+  "No extra folders.": "Aucun dossier supplémentaire.",
   "No phones yet": "Aucun téléphone pour l’instant",
   "Off. Phones cannot reach this computer.": "Désactivé. Les téléphones ne peuvent pas joindre cet ordinateur.",
   "On. Paired phones can use DS Bot here.": "Activé. Les téléphones associés peuvent utiliser DS Bot ici.",
@@ -7037,6 +7069,10 @@ var FR = {
   "Phone access": "Accès depuis le téléphone",
   "Phone app": "App mobile",
   "Phones": "Téléphones",
+  "Private Bots cannot have extra folders.": "Les Bots privés ne peuvent pas avoir de dossiers supplémentaires.",
+  "Remove extra folder {folder}": "Retirer le dossier supplémentaire {folder}",
+  "Remove folder": "Retirer le dossier",
+  "Remove its extra folders first.": "Retirez d'abord ses dossiers supplémentaires.",
   "Scan this code with the DS Bot app on your phone.": "Scannez ce code avec l’app DS Bot sur votre téléphone.",
   "Server": "Serveur",
   "Show a QR code": "Afficher un code QR",
@@ -9297,8 +9333,13 @@ var DSH_FR = {
 
 // src/client/locales/de.js
 var DE = {
+  "Add a folder": "Ordner hinzufügen",
   "Android beta": "Android-Beta",
   "Cannot reach the Server. Trying again…": "Server nicht erreichbar. Neuer Versuch…",
+  "Classic": "Klassisch",
+  "Extra folders": "Zusätzliche Ordner",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Ordner, in die dieser Bot zusätzlich zu seinem Arbeitsordner schreiben darf. Nur du kannst sie hinzufügen.",
+  "No extra folders.": "Keine zusätzlichen Ordner.",
   "No phones yet": "Noch keine Telefone",
   "Off. Phones cannot reach this computer.": "Aus. Telefone können diesen Computer nicht erreichen.",
   "On. Paired phones can use DS Bot here.": "An. Gekoppelte Telefone können DS Bot hier nutzen.",
@@ -9308,6 +9349,10 @@ var DE = {
   "Phone access": "Telefonzugriff",
   "Phone app": "Telefon-App",
   "Phones": "Telefone",
+  "Private Bots cannot have extra folders.": "Private Bots können keine zusätzlichen Ordner haben.",
+  "Remove extra folder {folder}": "Zusätzlichen Ordner {folder} entfernen",
+  "Remove folder": "Ordner entfernen",
+  "Remove its extra folders first.": "Entferne zuerst seine zusätzlichen Ordner.",
   "Scan this code with the DS Bot app on your phone.": "Scanne diesen Code mit der DS Bot-App auf deinem Telefon.",
   "Server": "Server",
   "Show a QR code": "QR-Code anzeigen",
