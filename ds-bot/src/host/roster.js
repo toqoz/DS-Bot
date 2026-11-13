@@ -183,7 +183,7 @@ export function install(rt) {
     return holdName('bot', cleanName, () => buildBot(cleanName, options))
   }
 
-  async function buildBot(cleanName, { role = '', instructions = '', color, brief = '', createdBy, main = false, avatar, model, effort, workDir, copyOf, pickModel = false, section, sectionId }) {
+  async function buildBot(cleanName, { role = '', instructions = '', color, brief = '', createdBy, main = false, avatar, model, effort, workDir, writableRoots, copyOf, pickModel = false, section, sectionId }) {
     const cleanAvatarValue = cleanAvatar(avatar)
     // The model is fixed at creation, so a later change of the DSH default leaves it alone.
     const modelRef = model ? await rt.resolveModel(model) : pickModel ? undefined : await rt.defaultBotModel()
@@ -196,9 +196,14 @@ export function install(rt) {
       : effort === null || effort === '' ? undefined
       : (await rt.resolveEffort(modelRef, effort)) ?? await rt.defaultEffort(modelRef)
     const dir = workDir === undefined || workDir === null ? undefined : await rt.cleanWorkDir(workDir)
+    const roots = await rt.cleanWritableRoots(writableRoots)
     const clash = dir === undefined ? undefined : await rt.privateClash(dir)
     if (clash) throw new Error(`${dir} is in or around the folder of ${clash.name}, a private Bot, so ${cleanName} cannot work there`)
     if (!main && (section !== undefined || sectionId !== undefined)) resolveSectionInput({ section, sectionId }, { allowCreate: false })
+    for (const root of roots ?? []) {
+      const other = await rt.privateClash(root)
+      if (other) throw new Error(`${root} is in or around the folder of ${other.name}, a private Bot, so ${cleanName} cannot write there`)
+    }
     const id = await createSession(cleanName, { dir })
     try {
       const resolvedSecId = !main ? resolveSectionInput({ section, sectionId }) : undefined
@@ -213,6 +218,7 @@ export function install(rt) {
         ...(effortId ? { effort: effortId } : {}),
         ...(dir ? { workDir: dir } : {}),
         ...(resolvedSecId ? { sectionId: resolvedSecId } : {}),
+        ...(roots?.length ? { writableRoots: roots } : {}),
         instructions: String(instructions).trim(),
         createdAt: Date.now(),
         createdBy: createdBy ?? null,
@@ -338,6 +344,14 @@ export function install(rt) {
     const served = (await rt.catalog()).some(entry => entry.ref === bot.model)
     // A folder that went away since leaves the copy in the team workspace.
     const workDir = bot.workDir !== undefined && await rt.isFolder(bot.workDir) ? bot.workDir : undefined
+    // An extra folder that went away is left out of the copy, like a working folder.
+    const writableRoots = []
+    for (const root of bot.writableRoots ?? []) {
+      try {
+        const [clean] = await rt.cleanWritableRoots([root])
+        if (clean !== undefined) writableRoots.push(clean)
+      } catch { /* a folder that went away or is no longer usable */ }
+    }
     // No await from here to createBot's check, so two copies at once get different names.
     return createBot({
       name: freshName(`${bot.name} copy`),
@@ -351,6 +365,7 @@ export function install(rt) {
       effort: served ? (bot.effort ?? null) : undefined,
       workDir,
       sectionId: bot.sectionId,
+      writableRoots,
       copyOf: bot.id,
     })
   }
@@ -370,12 +385,28 @@ export function install(rt) {
     if (patch.section !== undefined || patch.sectionId !== undefined) {
       resolveSectionInput({ section: patch.section, sectionId: patch.sectionId }, { allowCreate: false })
     }
+    if (patch.writableRoots !== undefined && actorId !== undefined) {
+      throw new Error(`Only the user can set the extra folders of ${bot.name}`)
+    }
     const browserGrants = patch.browserGrants === undefined ? undefined : cleanBrowserGrants(patch.browserGrants)
     // Checked first, so a folder, model or level that does not pass leaves the rest
     // unchanged too.
     const moving = patch.workDir !== undefined
     const workDir = moving ? await rt.cleanWorkDir(patch.workDir ?? '') : undefined
+    const changingRoots = patch.writableRoots !== undefined
+    const writableRoots = changingRoots ? await rt.cleanWritableRoots(patch.writableRoots) : undefined
+    const roots = changingRoots ? writableRoots : bot.writableRoots
     const flag = patch.private === undefined ? undefined : patch.private === true
+    const makesPrivate = flag === undefined ? bot.private === true : flag
+    if (makesPrivate && roots !== undefined && roots.length > 0) {
+      throw new Error(bot.private === true
+        ? `${bot.name} is private, so it cannot have extra folders`
+        : `Remove the extra folders of ${bot.name} before making it private`)
+    }
+    for (const root of roots ?? []) {
+      const clash = await rt.privateClash(root, { except: bot.id })
+      if (clash) throw new Error(`${root} is in or around the folder of ${clash.name}, a private Bot, so ${bot.name} cannot write there`)
+    }
     await rt.checkPrivacyChange(bot, { flag, moving, workDir })
     const modelRef = patch.model === undefined ? undefined
       : patch.model === null || patch.model === '' ? null
@@ -454,6 +485,10 @@ export function install(rt) {
     if (moving) {
       if (workDir === undefined) delete bot.workDir
       else bot.workDir = workDir
+    }
+    if (changingRoots) {
+      if (writableRoots === undefined || writableRoots.length === 0) delete bot.writableRoots
+      else bot.writableRoots = writableRoots
     }
     await rt.save()
     // The system prompt reads the live profile every turn, but a Session with

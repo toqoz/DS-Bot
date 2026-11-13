@@ -1,8 +1,13 @@
 // Korean (ko) localization for DS Bot client and DSH settings namespaces.
 
 export const KO = {
+  "Add a folder": "폴더 추가",
   "Android beta": "Android 베타",
   "Cannot reach the Server. Trying again…": "서버에 연결할 수 없습니다. 다시 시도하는 중…",
+  "Classic": "클래식",
+  "Extra folders": "추가 폴더",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "이 Bot이 작업 폴더 외에도 쓸 수 있는 폴더입니다. 추가할 수 있는 사람은 사용자뿐입니다.",
+  "No extra folders.": "추가 폴더가 없습니다.",
   "No phones yet": "아직 휴대폰이 없습니다",
   "Off. Phones cannot reach this computer.": "꺼짐. 휴대폰에서 이 컴퓨터에 연결할 수 없습니다.",
   "On. Paired phones can use DS Bot here.": "켜짐. 페어링된 휴대폰에서 여기의 DS Bot을 사용할 수 있습니다.",
@@ -12,6 +17,10 @@ export const KO = {
   "Phone access": "휴대폰 접근",
   "Phone app": "휴대폰 앱",
   "Phones": "휴대폰",
+  "Private Bots cannot have extra folders.": "비공개 Bot에는 추가 폴더를 지정할 수 없습니다.",
+  "Remove extra folder {folder}": "추가 폴더 {folder} 삭제",
+  "Remove folder": "폴더 삭제",
+  "Remove its extra folders first.": "먼저 이 Bot의 추가 폴더를 삭제하세요.",
   "Scan this code with the DS Bot app on your phone.": "휴대폰의 DS Bot 앱으로 이 코드를 스캔하세요.",
   "Server": "서버",
   "Show a QR code": "QR 코드 표시",

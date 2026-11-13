@@ -116,6 +116,8 @@ export function install(rt) {
     permissions: rt.permissionCatalog?.() ?? null,
     modelsKey: modelsKey(),
     prefs: state.prefs,
+    // Whether this DSH's sandbox policy can take per-Bot extra folders.
+    writableRootsSupported: rt.writableRootsSupported?.() === true,
     // Whether a Desktop window should serve Bot browser reads (see browser.js).
     browser: rt.browserEnabled,
     // False when config.memory turns memory off: no Memory row or panel.
@@ -341,7 +343,7 @@ export function install(rt) {
         }
         case 'create-bot': {
           await rt.bootstrap()
-          const bot = await rt.createBot({ name: body.name, role: body.role, color: body.color, instructions: body.instructions, brief: body.brief, avatar: body.avatar, model: body.model, effort: body.effort, workDir: body.workDir, section: body.section, sectionId: body.sectionId })
+          const bot = await rt.createBot({ name: body.name, role: body.role, color: body.color, instructions: body.instructions, brief: body.brief, avatar: body.avatar, model: body.model, effort: body.effort, workDir: body.workDir, writableRoots: body.writableRoots, section: body.section, sectionId: body.sectionId })
           return ok(bot)
         }
         case 'update-bot':

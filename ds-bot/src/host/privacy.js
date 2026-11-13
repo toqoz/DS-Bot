@@ -336,6 +336,7 @@ export function install(rt) {
     const others = [
       ['the team workspace', teamFolder()],
       ...Object.values(state.bots).filter(other => other.id !== bot.id && other.workDir).map(other => [`the folder of ${other.name}`, other.workDir]),
+      ...Object.values(state.bots).filter(other => other.id !== bot.id).flatMap(other => (other.writableRoots ?? []).map(root => [`an extra folder of ${other.name}`, root])),
       ...Object.values(state.rooms).filter(room => room.workDir).map(room => [`the folder of "${room.name}"`, room.workDir]),
       ...Object.values(state.rooms).flatMap(room => Object.entries(room.memberDirs ?? {})
         .filter(([member, dir]) => room.members.includes(member) && dir !== null)

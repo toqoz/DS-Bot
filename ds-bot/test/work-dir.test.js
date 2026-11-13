@@ -131,7 +131,7 @@ async function start({ services = {}, workspaces = [], llm, team: saved = TEAM, 
   }
   // Loading once fills the Session-owner indexes.
   await tool('list_bots', {}, 'a')
-  return { ctx, root, dsh, home, team, project, created, archived, agentOf, call, tool, preStep, state, workingIn, stop }
+  return { ctx, rt, root, dsh, home, team, project, created, archived, agentOf, call, tool, preStep, state, workingIn, stop }
 }
 
 const settle = () => new Promise(resolve => setTimeout(resolve, 20))
@@ -163,6 +163,25 @@ const approvalServices = (outcome, { policy = 'on-request', mode = 'workspace-wr
     },
   }
 }
+
+// A sandbox policy that records the providers DS Bot registers, so a test can ask
+// what the sandbox would grant a Session.
+const rootsPolicy = () => {
+  const providers = []
+  return {
+    providers,
+    services: {
+      sandboxPolicy: {
+        registerWritableRootsProvider(provider) {
+          providers.push(provider)
+          return () => { const at = providers.indexOf(provider); if (at !== -1) providers.splice(at, 1) }
+        },
+        resolve: () => ({ mode: 'workspace-write' }),
+      },
+    },
+  }
+}
+
 const notAllowed = path => `Working in ${path} was not allowed, so nothing changed. The user can make this change in the settings.`
 
 test('DSH_HOME is read as DSH reads it', () => {
@@ -1307,4 +1326,110 @@ test('a group Session that cannot be opened still saves the folder', async (t) =
   assert.equal(env.state().rooms.r1.workDir, env.project)
   assert.equal(env.state().rooms.r1.id, 'r1')
   assert.equal((await env.call('state', {})).ok, true)
+})
+
+test('extra folders are validated, saved as physical paths, and copied with a Bot', async (t) => {
+  const policy = rootsPolicy()
+  const { call, root, home, team, state, stop } = await start({ services: policy.services })
+  t.after(stop)
+  const shared = join(root, 'shared')
+  const nested = join(shared, 'nested')
+  mkdirSync(nested, { recursive: true })
+  writeFileSync(join(root, 'notes.txt'), 'x')
+
+  const error = async writableRoots => (await call('update-bot', { id: 'b', writableRoots })).error?.message
+  assert.equal(await error('shared'), 'Extra folders must be a list of folder paths')
+  assert.equal(await error(['shared']), 'Give the full path of the folder, not shared')
+  assert.equal(await error([join(root, 'missing')]), `There is no folder at ${join(root, 'missing')}`)
+  assert.equal(await error([join(root, 'notes.txt')]), `${join(root, 'notes.txt')} is a file, not a folder`)
+  assert.equal(await error([home]), `${home} holds DeepSeek Harness data, so Bots cannot write there`)
+
+  // The team workspace is allowed as an extra folder even though it is no Bot's
+  // working folder; a quoted path and a trailing separator name the same folder.
+  assert.deepEqual((await call('update-bot', { id: 'b', writableRoots: [`"${shared}/"`, team] })).value.writableRoots, [shared, team])
+  assert.deepEqual(state().bots.b.writableRoots, [shared, team])
+
+  const copy = await call('duplicate-bot', { id: 'b' })
+  assert.deepEqual(copy.value.writableRoots, [shared, team])
+
+  // `null` clears the list.
+  assert.deepEqual((await call('update-bot', { id: 'b', writableRoots: null })).value.writableRoots, undefined)
+  assert.equal(state().bots.b.writableRoots, undefined)
+})
+
+test('the sandbox provider gets each Bot\'s extra folders and drops ones that went away', async (t) => {
+  const policy = rootsPolicy()
+  const { call, rt, root, team, agentOf, stop } = await start({ services: policy.services })
+  t.after(stop)
+  await call('list_bots', {})
+  const shared = join(root, 'shared')
+  mkdirSync(shared, { recursive: true })
+
+  assert.equal((await call('update-bot', { id: 'b', writableRoots: [shared, team] })).ok, true)
+  const provider = policy.providers[0]
+  assert.deepEqual(provider.rootsFor({ session: agentOf('b').session }), [shared, team])
+  // A group Session of the same Bot gets the same folders; another Bot gets none.
+  assert.deepEqual(provider.rootsFor({ session: agentOf('gb').session }), [shared, team])
+  assert.equal(provider.rootsFor({ session: agentOf('a').session }), undefined)
+  assert.equal(provider.rootsFor({ session: undefined }), undefined)
+
+  // The host rejects a missing root for the whole call, so the provider stops naming one.
+  rmSync(shared, { recursive: true })
+  assert.deepEqual(provider.rootsFor({ session: agentOf('b').session }), [team])
+  assert.equal(rt.writableRootsOf(agentOf('b').session).length, 1)
+})
+
+test('only the user sets extra folders, and a private Bot has none', async (t) => {
+  const policy = rootsPolicy()
+  const { call, rt, root, project, stop } = await start({ services: policy.services })
+  t.after(stop)
+  const shared = join(root, 'shared')
+  mkdirSync(shared, { recursive: true })
+
+  // A Bot cannot widen its own sandbox.
+  const byMain = await rt.updateBot('b', { writableRoots: [shared] }, 'a').then(() => undefined, error => error)
+  assert.equal(byMain.message, 'Only the user can set the extra folders of Writer')
+
+  const solo = (await call('create-bot', { name: 'Solo' })).value
+  assert.equal((await call('update-bot', { id: solo.id, workDir: project })).ok, true)
+  assert.equal((await call('update-bot', { id: solo.id, writableRoots: [shared] })).ok, true)
+  const privateError = (await call('update-bot', { id: solo.id, private: true })).error?.message
+  assert.equal(privateError, 'Remove the extra folders of Solo before making it private')
+
+  assert.equal((await call('update-bot', { id: solo.id, writableRoots: [] })).ok, true)
+  assert.equal((await call('update-bot', { id: solo.id, private: true })).ok, true)
+  const rootsError = (await call('update-bot', { id: solo.id, writableRoots: [shared] })).error?.message
+  assert.equal(rootsError, 'Solo is private, so it cannot have extra folders')
+})
+
+test('extra folders cannot overlap a private Bot, and an extra folder keeps another Bot from becoming private', async (t) => {
+  const policy = rootsPolicy()
+  const { call, root, project, stop } = await start({ services: policy.services })
+  t.after(stop)
+  const inside = join(project, 'inside')
+  const shared = join(root, 'shared')
+  const otherDir = join(root, 'other')
+  mkdirSync(inside, { recursive: true })
+  mkdirSync(shared, { recursive: true })
+  mkdirSync(otherDir, { recursive: true })
+
+  const solo = (await call('create-bot', { name: 'Solo' })).value
+  assert.equal((await call('update-bot', { id: solo.id, workDir: project })).ok, true)
+  assert.equal((await call('update-bot', { id: solo.id, private: true })).ok, true)
+
+  const overlap = (await call('update-bot', { id: 'b', writableRoots: [inside] })).error?.message
+  assert.equal(overlap, `${inside} is in or around the folder of Solo, a private Bot, so Writer cannot write there`)
+
+  const other = (await call('create-bot', { name: 'Other' })).value
+  const privateDir = join(root, 'private')
+  const laterDir = join(privateDir, 'later')
+  mkdirSync(laterDir, { recursive: true })
+  assert.equal((await call('update-bot', { id: other.id, workDir: otherDir })).ok, true)
+  assert.equal((await call('update-bot', { id: other.id, writableRoots: [privateDir] })).ok, true)
+
+  // Another Bot's extra folder keeps a Bot from closing that folder by becoming private.
+  const later = (await call('create-bot', { name: 'Later' })).value
+  assert.equal((await call('update-bot', { id: later.id, workDir: laterDir })).ok, true)
+  const clash = (await call('update-bot', { id: later.id, private: true })).error?.message
+  assert.equal(clash, `${laterDir} is in or around an extra folder of Other, so Later cannot be private there. Give it a folder of its own`)
 })

@@ -6,7 +6,7 @@ import { PencilIcon, ChevronRightIcon } from './icons.js'
 import { lookOf, BotMark } from './mark.js'
 import { ModelMenu, modelOf } from './model-menu.js'
 import { RunModeCard } from './agent-cards.js'
-import { FolderMenu } from './folder-menu.js'
+import { FolderMenu, folderName } from './folder-menu.js'
 import { BotSchedules } from './schedules.js'
 import { BotCapabilitiesCard } from './capability-settings.js'
 import { BotComputerCard } from './computer.js'
@@ -174,6 +174,22 @@ function MemoryCard({ bot, actions }) {
       h('span', { className: 'bt-mem-row-go' }, t('Manage'), h(ChevronRightIcon))))
 }
 
+function RootsEditor({ bot, actions, run }) {
+  const roots = bot.writableRoots ?? []
+  const save = next => run(actions.updateBot(bot.id, { writableRoots: next }))
+  return h('div', { className: 'bt-roots' },
+    roots.length === 0
+      ? h('div', { className: 'bt-roots-empty' }, t('No extra folders.'))
+      : roots.map(root => h('div', { key: root, className: 'bt-root-row' },
+          h('span', { className: 'bt-root-copy' },
+            h('span', { className: 'bt-bs-label' }, folderName(root)),
+            h('span', { className: 'bt-folder-path' }, root)),
+          h('button', { type: 'button', className: 'bt-soft bt-soft-sm', 'aria-label': t('Remove extra folder {folder}', { folder: root }), onClick: () => save(roots.filter(item => item !== root)) }, t('Remove folder')))),
+    bot.private === true
+      ? h('div', { className: 'bt-roots-empty' }, t('Private Bots cannot have extra folders.'))
+      : h(FolderMenu, { addOnly: true, actions, run, onPick: (root) => { if (!roots.includes(root)) save([...roots, root]) } }))
+}
+
 // A Bot's settings as grouped cards: who it is (avatar, name, label), what it runs on
 // (model), what it does (instructions), its memory and tasks, its Main Bot role, its
 // sidebar place, and copies.
@@ -192,7 +208,8 @@ export function BotSettingsForm({ bot, roster, actions, run }) {
   const isTile = roster.mainBotId === bot.id
   const inGroup = (roster.rooms ?? []).some(room => room.members?.includes(bot.id))
   const privateHint = t('Other Bots cannot read its folder, memory or chats, and you approve what it shares with them.')
-  const privacyHint = bot.private === true ? privateHint : isMainBot ? t('A Main Bot cannot be private.') : inGroup ? t('Leave its group chats before making it private.') : !bot.workDir ? t('Choose a working folder of its own first.') : privateHint
+  const hasRoots = (bot.writableRoots ?? []).length > 0
+  const privacyHint = bot.private === true ? privateHint : isMainBot ? t('A Main Bot cannot be private.') : inGroup ? t('Leave its group chats before making it private.') : !bot.workDir ? t('Choose a working folder of its own first.') : hasRoots ? t('Remove its extra folders first.') : privateHint
   const save = patch => run(actions.updateBot(bot.id, patch))
   const duplicate = () => run(actions.duplicateBot(bot.id).then(copy => actions.openSession(copy.id)))
   const remove = () => { if (confirming) void run(actions.deleteBot(bot.id)); else setConfirming(true) }
@@ -220,12 +237,15 @@ export function BotSettingsForm({ bot, roster, actions, run }) {
       h('div', { className: 'bt-set-row bt-bs-row' },
         h('span', { className: 'bt-set-copy' }, h('span', { className: 'bt-bs-label' }, t('Folder'))),
         h(FolderMenu, { value: bot.workDir, actions, run, onPick: workDir => save({ workDir }) }))),
+    roster.writableRootsSupported === false ? null : h(Card, { title: t('Extra folders') },
+      h('div', { className: 'bt-roots-hint' }, t('Folders this Bot may also write in, besides its working folder. Only you can add them.')),
+      h(RootsEditor, { bot, actions, run })),
     h(Card, { title: t('Privacy') },
       h(SwitchRow, {
         label: t('Private'),
         hint: privacyHint,
         on: bot.private === true,
-        disabled: bot.private !== true && (isMainBot || inGroup || !bot.workDir),
+        disabled: bot.private !== true && (isMainBot || inGroup || !bot.workDir || hasRoots),
         onChange: value => save({ private: value }),
       })),
     h(Card, { title: t('Instructions') },
@@ -286,6 +306,13 @@ label.bt-bs-row{cursor:text}
 .bt-bs-danger .bt-bs-label{color:var(--bt-danger)}
 .bt-bs-danger[data-confirm]{background:color-mix(in srgb,var(--bt-danger) 8%,transparent)}
 .bt-bs-danger[data-confirm]:hover{background:color-mix(in srgb,var(--bt-danger) 12%,transparent)}
+.bt-roots{display:flex;flex-direction:column;gap:2px}
+.bt-roots-hint{padding:0 2px 8px;font-size:12px;line-height:16px;color:var(--bt-ink-3)}
+.bt-roots-empty{padding:4px 2px;font-size:12px;line-height:16px;color:var(--bt-ink-3)}
+.bt-root-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:4px 0;border-top:1px solid var(--bt-line-1)}
+.bt-root-row:first-child{border-top:none}
+.bt-root-copy{flex:1;display:flex;flex-direction:column;min-width:0}
+.bt-roots>.bt-model-trigger{flex:none;align-self:flex-start;margin-top:6px}
 .bt-switch{position:relative;flex:none;width:36px;height:20px;padding:0;border:0;border-radius:999px;background:var(--bt-line-2);cursor:pointer;transition:background-color .2s ease}
 .bt-switch[aria-checked=true]{background:var(--bt-accent)}
 .bt-switch:disabled{opacity:.45;cursor:default}

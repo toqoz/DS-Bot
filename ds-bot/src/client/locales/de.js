@@ -1,8 +1,13 @@
 // German (de) localization for DS Bot client and DSH settings namespaces.
 
 export const DE = {
+  "Add a folder": "Ordner hinzufügen",
   "Android beta": "Android-Beta",
   "Cannot reach the Server. Trying again…": "Server nicht erreichbar. Neuer Versuch…",
+  "Classic": "Klassisch",
+  "Extra folders": "Zusätzliche Ordner",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Ordner, in die dieser Bot zusätzlich zu seinem Arbeitsordner schreiben darf. Nur du kannst sie hinzufügen.",
+  "No extra folders.": "Keine zusätzlichen Ordner.",
   "No phones yet": "Noch keine Telefone",
   "Off. Phones cannot reach this computer.": "Aus. Telefone können diesen Computer nicht erreichen.",
   "On. Paired phones can use DS Bot here.": "An. Gekoppelte Telefone können DS Bot hier nutzen.",
@@ -12,6 +17,10 @@ export const DE = {
   "Phone access": "Telefonzugriff",
   "Phone app": "Telefon-App",
   "Phones": "Telefone",
+  "Private Bots cannot have extra folders.": "Private Bots können keine zusätzlichen Ordner haben.",
+  "Remove extra folder {folder}": "Zusätzlichen Ordner {folder} entfernen",
+  "Remove folder": "Ordner entfernen",
+  "Remove its extra folders first.": "Entferne zuerst seine zusätzlichen Ordner.",
   "Scan this code with the DS Bot app on your phone.": "Scanne diesen Code mit der DS Bot-App auf deinem Telefon.",
   "Server": "Server",
   "Show a QR code": "QR-Code anzeigen",
