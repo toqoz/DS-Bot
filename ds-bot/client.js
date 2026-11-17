@@ -127,8 +127,13 @@ var JA = {
   "A new reply is waiting": "新しい返信があります",
   "Opening…": "開いています…",
   "Still opening…": "まだ開いています…",
+  "Add a folder": "フォルダを追加",
   "Android beta": "Android ベータ版",
   "Cannot reach the Server. Trying again…": "サーバーに接続できません。再試行しています…",
+  "Classic": "クラシック",
+  "Extra folders": "追加フォルダ",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "この Bot が作業フォルダ以外に書き込めるフォルダ。追加できるのはあなただけです。",
+  "No extra folders.": "追加フォルダはありません。",
   "No phones yet": "スマートフォンはまだありません",
   "Off. Phones cannot reach this computer.": "オフ。スマートフォンからこのコンピューターに接続できません。",
   "On. Paired phones can use DS Bot here.": "オン。ペアリング済みのスマートフォンからここで DS Bot を使えます。",
@@ -138,6 +143,10 @@ var JA = {
   "Phone access": "スマートフォンからのアクセス",
   "Phone app": "スマートフォンアプリ",
   "Phones": "スマートフォン",
+  "Private Bots cannot have extra folders.": "プライベート Bot に追加フォルダは設定できません。",
+  "Remove extra folder {folder}": "追加フォルダ {folder} を削除",
+  "Remove folder": "フォルダを削除",
+  "Remove its extra folders first.": "先にこの Bot の追加フォルダを削除してください。",
   "Scan this code with the DS Bot app on your phone.": "スマートフォンの DS Bot アプリでこのコードをスキャンしてください。",
   "Server": "サーバー",
   "Show a QR code": "QR コードを表示",
@@ -2543,8 +2552,13 @@ var KO = {
   "A new reply is waiting": "새 답변이 도착했습니다",
   "Opening…": "여는 중…",
   "Still opening…": "아직 여는 중…",
+  "Add a folder": "폴더 추가",
   "Android beta": "Android 베타",
   "Cannot reach the Server. Trying again…": "서버에 연결할 수 없습니다. 다시 시도하는 중…",
+  "Classic": "클래식",
+  "Extra folders": "추가 폴더",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "이 Bot이 작업 폴더 외에도 쓸 수 있는 폴더입니다. 추가할 수 있는 사람은 사용자뿐입니다.",
+  "No extra folders.": "추가 폴더가 없습니다.",
   "No phones yet": "아직 휴대폰이 없습니다",
   "Off. Phones cannot reach this computer.": "꺼짐. 휴대폰에서 이 컴퓨터에 연결할 수 없습니다.",
   "On. Paired phones can use DS Bot here.": "켜짐. 페어링된 휴대폰에서 여기의 DS Bot을 사용할 수 있습니다.",
@@ -2554,6 +2568,10 @@ var KO = {
   "Phone access": "휴대폰 접근",
   "Phone app": "휴대폰 앱",
   "Phones": "휴대폰",
+  "Private Bots cannot have extra folders.": "비공개 Bot에는 추가 폴더를 지정할 수 없습니다.",
+  "Remove extra folder {folder}": "추가 폴더 {folder} 삭제",
+  "Remove folder": "폴더 삭제",
+  "Remove its extra folders first.": "먼저 이 Bot의 추가 폴더를 삭제하세요.",
   "Scan this code with the DS Bot app on your phone.": "휴대폰의 DS Bot 앱으로 이 코드를 스캔하세요.",
   "Server": "서버",
   "Show a QR code": "QR 코드 표시",
@@ -5004,8 +5022,13 @@ var ES = {
   "A new reply is waiting": "Tienes una nueva respuesta",
   "Opening…": "Abriendo…",
   "Still opening…": "Sigue abriendo…",
+  "Add a folder": "Añadir una carpeta",
   "Android beta": "Android beta",
   "Cannot reach the Server. Trying again…": "No se puede conectar con el servidor. Reintentando…",
+  "Classic": "Clásico",
+  "Extra folders": "Carpetas adicionales",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Carpetas en las que este Bot también puede escribir, además de su carpeta de trabajo. Solo tú puedes añadirlas.",
+  "No extra folders.": "No hay carpetas adicionales.",
   "No phones yet": "Aún no hay teléfonos",
   "Off. Phones cannot reach this computer.": "Desactivado. Los teléfonos no pueden conectarse a este ordenador.",
   "On. Paired phones can use DS Bot here.": "Activado. Los teléfonos vinculados pueden usar DS Bot aquí.",
@@ -5015,6 +5038,10 @@ var ES = {
   "Phone access": "Acceso desde el teléfono",
   "Phone app": "App para el teléfono",
   "Phones": "Teléfonos",
+  "Private Bots cannot have extra folders.": "Los Bots privados no pueden tener carpetas adicionales.",
+  "Remove extra folder {folder}": "Quitar la carpeta adicional {folder}",
+  "Remove folder": "Quitar carpeta",
+  "Remove its extra folders first.": "Quita primero sus carpetas adicionales.",
   "Scan this code with the DS Bot app on your phone.": "Escanea este código con la app DS Bot de tu teléfono.",
   "Server": "Servidor",
   "Show a QR code": "Mostrar un código QR",
@@ -7465,8 +7492,13 @@ var FR = {
   "A new reply is waiting": "Une nouvelle réponse vous attend",
   "Opening…": "Ouverture…",
   "Still opening…": "Toujours en cours d’ouverture…",
+  "Add a folder": "Ajouter un dossier",
   "Android beta": "Android bêta",
   "Cannot reach the Server. Trying again…": "Impossible de joindre le serveur. Nouvel essai…",
+  "Classic": "Classique",
+  "Extra folders": "Dossiers supplémentaires",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Dossiers dans lesquels ce Bot peut aussi écrire, en plus de son dossier de travail. Vous seul pouvez les ajouter.",
+  "No extra folders.": "Aucun dossier supplémentaire.",
   "No phones yet": "Aucun téléphone pour l’instant",
   "Off. Phones cannot reach this computer.": "Désactivé. Les téléphones ne peuvent pas joindre cet ordinateur.",
   "On. Paired phones can use DS Bot here.": "Activé. Les téléphones associés peuvent utiliser DS Bot ici.",
@@ -7476,6 +7508,10 @@ var FR = {
   "Phone access": "Accès depuis le téléphone",
   "Phone app": "App mobile",
   "Phones": "Téléphones",
+  "Private Bots cannot have extra folders.": "Les Bots privés ne peuvent pas avoir de dossiers supplémentaires.",
+  "Remove extra folder {folder}": "Retirer le dossier supplémentaire {folder}",
+  "Remove folder": "Retirer le dossier",
+  "Remove its extra folders first.": "Retirez d'abord ses dossiers supplémentaires.",
   "Scan this code with the DS Bot app on your phone.": "Scannez ce code avec l’app DS Bot sur votre téléphone.",
   "Server": "Serveur",
   "Show a QR code": "Afficher un code QR",
@@ -9881,8 +9917,13 @@ var DE = {
   "A new reply is waiting": "Eine neue Antwort wartet auf dich",
   "Opening…": "Wird geöffnet…",
   "Still opening…": "Wird noch geöffnet…",
+  "Add a folder": "Ordner hinzufügen",
   "Android beta": "Android-Beta",
   "Cannot reach the Server. Trying again…": "Server nicht erreichbar. Neuer Versuch…",
+  "Classic": "Klassisch",
+  "Extra folders": "Zusätzliche Ordner",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "Ordner, in die dieser Bot zusätzlich zu seinem Arbeitsordner schreiben darf. Nur du kannst sie hinzufügen.",
+  "No extra folders.": "Keine zusätzlichen Ordner.",
   "No phones yet": "Noch keine Telefone",
   "Off. Phones cannot reach this computer.": "Aus. Telefone können diesen Computer nicht erreichen.",
   "On. Paired phones can use DS Bot here.": "An. Gekoppelte Telefone können DS Bot hier nutzen.",
@@ -9892,6 +9933,10 @@ var DE = {
   "Phone access": "Telefonzugriff",
   "Phone app": "Telefon-App",
   "Phones": "Telefone",
+  "Private Bots cannot have extra folders.": "Private Bots können keine zusätzlichen Ordner haben.",
+  "Remove extra folder {folder}": "Zusätzlichen Ordner {folder} entfernen",
+  "Remove folder": "Ordner entfernen",
+  "Remove its extra folders first.": "Entferne zuerst seine zusätzlichen Ordner.",
   "Scan this code with the DS Bot app on your phone.": "Scanne diesen Code mit der DS Bot-App auf deinem Telefon.",
   "Server": "Server",
   "Show a QR code": "QR-Code anzeigen",
@@ -12542,6 +12587,7 @@ var ZH = {
   "GitHub addresses must start with https://": "GitHub 地址必须以 https:// 开头",
   "This DSH cannot load connectors": "这个 DSH 不能加载连接器",
   "No such connector": "没有这个连接器",
+  "Classic": "经典",
   "Classic Agent mode": "经典 Agent 模式",
   "Switch to classic Agent mode": "切换到经典 Agent 模式",
   "Bot mode": "Bot 模式",
@@ -13813,6 +13859,14 @@ var ZH = {
   "Working folder: {folder}": "工作文件夹：{folder}",
   Folder: "文件夹",
   Folders: "文件夹",
+  "Extra folders": "额外文件夹",
+  "Folders this Bot may also write in, besides its working folder. Only you can add them.": "除了工作文件夹，这个 Bot 还可以写入的文件夹。只有你能添加。",
+  "No extra folders.": "没有额外文件夹。",
+  "Private Bots cannot have extra folders.": "隐私 Bot 不能有额外文件夹。",
+  "Remove folder": "移除文件夹",
+  "Remove extra folder {folder}": "移除额外文件夹 {folder}",
+  "Remove its extra folders first.": "先移除它的额外文件夹。",
+  "Add a folder": "添加文件夹",
   Privacy: "隐私",
   Private: "隐私",
   "Other Bots cannot read its folder, memory or chats, and you approve what it shares with them.": "其他 Bot 不能读取它的文件夹、记忆或对话；它分享给其他 Bot 的内容需要你批准。",
@@ -16822,7 +16876,7 @@ button:hover .bt-you{background:color-mix(in srgb,var(--bt-ink) 9%,var(--bt-side
 .bt-select:hover:not(:disabled){background-color:var(--bt-active)}
 .bt-select:disabled{opacity:.45;cursor:default}
 :is(.bt-input,.bt-select,.bt-textarea):focus-visible{border-color:var(--bt-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--bt-accent) 22%,transparent)}
-:is(.bt-round,.bt-icon-btn,.bt-soft,.bt-send,.bt-mini,.bt-pill,.bt-plus,.bt-mic,.bt-voice,.bt-account,.bt-title-toggle,.bt-settings-close,.bt-avatar-trigger,.bt-shape,.bt-color,.bt-swatch,.bt-pick,.bt-more,.bt-mem-row,.bt-mem-send):focus-visible{outline:2px solid var(--bt-accent);outline-offset:2px}
+:is(.bt-round,.bt-icon-btn,.bt-soft,.bt-send,.bt-mini,.bt-pill,.bt-plus,.bt-mic,.bt-voice,.bt-account,.bt-title-toggle,.bt-settings-close,.bt-avatar-trigger,.bt-shape,.bt-color,.bt-swatch,.bt-pick,.bt-more,.bt-mem-row,.bt-mem-send,.bt-classic):focus-visible{outline:2px solid var(--bt-accent);outline-offset:2px}
 :is(.bt-row,.bt-tile,.bt-tab,.bt-avedit-tab,.bt-settings-item,.bt-menu button,.bt-option,.bt-palette-row,button.bt-set-row):focus-visible{outline:2px solid var(--bt-accent);outline-offset:-2px}
 .bt-note{font-size:12px;line-height:16px;color:var(--bt-ink-2);margin-top:6px}
 .bt-set-hint .bt-note.bt-danger{color:var(--bt-danger)}
@@ -24054,14 +24108,14 @@ var import_react22 = require("react");
 var import_react_dom2 = require("react-dom");
 var folderName = (path2) => String(path2).replace(/[\\/]+$/, "").split(/[\\/]/).pop() || String(path2);
 var Tick = ({ on }) => (0, import_react22.createElement)("span", { className: "bt-model-tick", "aria-hidden": true }, on ? (0, import_react22.createElement)(CheckIcon) : null);
-function FolderMenu({ value, group = false, team = false, actions, run: run2, onPick, wide = false, disabled = false }) {
+function FolderMenu({ value, group = false, team = false, addOnly = false, actions, run: run2, onPick, wide = false, disabled = false }) {
   const { isOpen, shownPlace, leaving, button, menu, open, close } = useAnchoredMenu();
   const [info, setInfo] = (0, import_react22.useState)(null);
   const [view, setView] = (0, import_react22.useState)("list");
   const [draft, setDraft] = (0, import_react22.useState)("");
   const [listing, setListing] = (0, import_react22.useState)(null);
   const [problem, setProblem] = (0, import_react22.useState)("");
-  const fallback = group ? t("Each Bot's own folder") : t("Team workspace");
+  const fallback = addOnly ? t("Add a folder") : group ? t("Each Bot's own folder") : t("Team workspace");
   const toggle = () => {
     if (isOpen) {
       close();
@@ -24096,7 +24150,7 @@ function FolderMenu({ value, group = false, team = false, actions, run: run2, on
   const listView = (0, import_react22.createElement)(
     "div",
     { key: "list", className: "bt-folder-view" },
-    team ? null : (0, import_react22.createElement)(
+    team || addOnly ? null : (0, import_react22.createElement)(
       "button",
       { type: "button", role: "menuitemradio", "aria-checked": !value, title: group ? void 0 : info?.team ?? void 0, onClick: () => choose("") },
       (0, import_react22.createElement)("span", { className: "bt-menu-label" }, fallback),
@@ -24168,22 +24222,22 @@ function FolderMenu({ value, group = false, team = false, actions, run: run2, on
         "data-wide": wide || void 0,
         "aria-haspopup": "menu",
         "aria-expanded": isOpen,
-        "aria-label": team ? t("Team workspace: {folder}", { folder: value ?? "" }) : t("Working folder: {folder}", { folder: value ?? fallback }),
-        title: value,
+        "aria-label": addOnly ? t("Add a folder") : team ? t("Team workspace: {folder}", { folder: value ?? "" }) : t("Working folder: {folder}", { folder: value ?? fallback }),
+        title: addOnly ? void 0 : value,
         onClick: toggle,
         disabled
       },
       (0, import_react22.createElement)(
         "span",
         { className: "bt-model-copy" },
-        (0, import_react22.createElement)("span", { className: "bt-model-name" }, value ? folderName(value) : fallback),
-        value ? (0, import_react22.createElement)("span", { className: "bt-model-provider" }, value) : null
+        (0, import_react22.createElement)("span", { className: "bt-model-name" }, addOnly || !value ? fallback : folderName(value)),
+        addOnly || !value ? null : (0, import_react22.createElement)("span", { className: "bt-model-provider" }, value)
       ),
       (0, import_react22.createElement)(Caret)
     ),
     shownPlace ? (0, import_react_dom2.createPortal)((0, import_react22.createElement)(
       "div",
-      { ref: menu, className: `bt-menu bt-model-menu bt-folder-menu${shownPlace.bottom !== void 0 ? " bt-menu-up" : ""}`, role: "menu", "aria-label": team ? t("Team workspace") : t("Working folder"), style: shownPlace, "data-leaving": leaving || void 0 },
+      { ref: menu, className: `bt-menu bt-model-menu bt-folder-menu${shownPlace.bottom !== void 0 ? " bt-menu-up" : ""}`, role: "menu", "aria-label": addOnly ? t("Add a folder") : team ? t("Team workspace") : t("Working folder"), style: shownPlace, "data-leaving": leaving || void 0 },
       shownView,
       problem ? (0, import_react22.createElement)("div", { className: "bt-folder-error", role: "alert" }, problem) : null
     ), document.body) : null
@@ -25818,6 +25872,28 @@ function MemoryCard({ bot, actions }) {
     )
   );
 }
+function RootsEditor({ bot, actions, run: run2 }) {
+  const roots = bot.writableRoots ?? [];
+  const save = (next) => run2(actions.updateBot(bot.id, { writableRoots: next }));
+  return (0, import_react27.createElement)(
+    "div",
+    { className: "bt-roots" },
+    roots.length === 0 ? (0, import_react27.createElement)("div", { className: "bt-roots-empty" }, t("No extra folders.")) : roots.map((root) => (0, import_react27.createElement)(
+      "div",
+      { key: root, className: "bt-root-row" },
+      (0, import_react27.createElement)(
+        "span",
+        { className: "bt-root-copy" },
+        (0, import_react27.createElement)("span", { className: "bt-bs-label" }, folderName(root)),
+        (0, import_react27.createElement)("span", { className: "bt-folder-path" }, root)
+      ),
+      (0, import_react27.createElement)("button", { type: "button", className: "bt-soft bt-soft-sm", "aria-label": t("Remove extra folder {folder}", { folder: root }), onClick: () => save(roots.filter((item) => item !== root)) }, t("Remove folder"))
+    )),
+    bot.private === true ? (0, import_react27.createElement)("div", { className: "bt-roots-empty" }, t("Private Bots cannot have extra folders.")) : (0, import_react27.createElement)(FolderMenu, { addOnly: true, actions, run: run2, onPick: (root) => {
+      if (!roots.includes(root)) save([...roots, root]);
+    } })
+  );
+}
 function BotSettingsForm({ bot, roster, actions, run: run2 }) {
   const [editing, setEditing] = (0, import_react27.useState)(false);
   const [editorShown, editorLeaving] = useLinger(editing, 120);
@@ -25833,7 +25909,8 @@ function BotSettingsForm({ bot, roster, actions, run: run2 }) {
   const isTile = roster.mainBotId === bot.id;
   const inGroup = (roster.rooms ?? []).some((room2) => room2.members?.includes(bot.id));
   const privateHint = t("Other Bots cannot read its folder, memory or chats, and you approve what it shares with them.");
-  const privacyHint = bot.private === true ? privateHint : isMainBot ? t("A Main Bot cannot be private.") : inGroup ? t("Leave its group chats before making it private.") : !bot.workDir ? t("Choose a working folder of its own first.") : privateHint;
+  const hasRoots = (bot.writableRoots ?? []).length > 0;
+  const privacyHint = bot.private === true ? privateHint : isMainBot ? t("A Main Bot cannot be private.") : inGroup ? t("Leave its group chats before making it private.") : !bot.workDir ? t("Choose a working folder of its own first.") : hasRoots ? t("Remove its extra folders first.") : privateHint;
   const save = (patch) => run2(actions.updateBot(bot.id, patch));
   const duplicate = () => run2(actions.duplicateBot(bot.id).then((copy2) => actions.openSession(copy2.id)));
   const remove = () => {
@@ -25894,6 +25971,12 @@ function BotSettingsForm({ bot, roster, actions, run: run2 }) {
         (0, import_react27.createElement)(FolderMenu, { value: bot.workDir, actions, run: run2, onPick: (workDir) => save({ workDir }) })
       )
     ),
+    roster.writableRootsSupported === false ? null : (0, import_react27.createElement)(
+      Card2,
+      { title: t("Extra folders") },
+      (0, import_react27.createElement)("div", { className: "bt-roots-hint" }, t("Folders this Bot may also write in, besides its working folder. Only you can add them.")),
+      (0, import_react27.createElement)(RootsEditor, { bot, actions, run: run2 })
+    ),
     (0, import_react27.createElement)(
       Card2,
       { title: t("Privacy") },
@@ -25901,7 +25984,7 @@ function BotSettingsForm({ bot, roster, actions, run: run2 }) {
         label: t("Private"),
         hint: privacyHint,
         on: bot.private === true,
-        disabled: bot.private !== true && (isMainBot || inGroup || !bot.workDir),
+        disabled: bot.private !== true && (isMainBot || inGroup || !bot.workDir || hasRoots),
         onChange: (value) => save({ private: value })
       })
     ),
@@ -25991,6 +26074,13 @@ label.bt-bs-row{cursor:text}
 .bt-bs-danger .bt-bs-label{color:var(--bt-danger)}
 .bt-bs-danger[data-confirm]{background:color-mix(in srgb,var(--bt-danger) 8%,transparent)}
 .bt-bs-danger[data-confirm]:hover{background:color-mix(in srgb,var(--bt-danger) 12%,transparent)}
+.bt-roots{display:flex;flex-direction:column;gap:2px}
+.bt-roots-hint{padding:0 2px 8px;font-size:12px;line-height:16px;color:var(--bt-ink-3)}
+.bt-roots-empty{padding:4px 2px;font-size:12px;line-height:16px;color:var(--bt-ink-3)}
+.bt-root-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:4px 0;border-top:1px solid var(--bt-line-1)}
+.bt-root-row:first-child{border-top:none}
+.bt-root-copy{flex:1;display:flex;flex-direction:column;min-width:0}
+.bt-roots>.bt-model-trigger{flex:none;align-self:flex-start;margin-top:6px}
 .bt-switch{position:relative;flex:none;width:36px;height:20px;padding:0;border:0;border-radius:999px;background:var(--bt-line-2);cursor:pointer;transition:background-color .2s ease}
 .bt-switch[aria-checked=true]{background:var(--bt-accent)}
 .bt-switch:disabled{opacity:.45;cursor:default}
@@ -30437,12 +30527,19 @@ function TeamSidebar(props) {
     main ? (0, import_react36.createElement)(BotRow, { ...rowProps, bot: main, marked: markedUnread[main.id] === true }) : roster.ready ? null : bootFailed ? (0, import_react36.createElement)(BootFailed, { actions }) : (0, import_react36.createElement)("div", { className: "bt-hint" }, t("Setting up your Main Bot…")),
     (0, import_react36.createElement)("span", { className: "bt-rail-sep", "aria-hidden": true })
   );
-  const foot = wideContent ? (0, import_react36.createElement)("div", { className: "bt-leftcol-foot" }, (0, import_react36.createElement)(AccountLauncher, { seat: false, actions }), (0, import_react36.createElement)(PluginsButton, { actions })) : (0, import_react36.createElement)(
+  const foot = wideContent ? (0, import_react36.createElement)(
+    "div",
+    { className: "bt-leftcol-foot" },
+    (0, import_react36.createElement)(AccountLauncher, { seat: false, actions }),
+    (0, import_react36.createElement)(PluginsButton, { actions }),
+    actions.setSurface ? (0, import_react36.createElement)(ClassicReturn, { wide: true, actions }) : null
+  ) : (0, import_react36.createElement)(
     "div",
     { className: "bt-leftcol-foot bt-leftcol-foot-rail" },
     (0, import_react36.createElement)("button", { type: "button", className: "bt-round", "aria-label": t("New…"), title: t("New…"), onClick: () => actions.openNewChat("new") }, (0, import_react36.createElement)(PlusIcon)),
     (0, import_react36.createElement)(AccountLauncher, { seat: false, actions }),
-    (0, import_react36.createElement)(PluginsButton, { actions })
+    (0, import_react36.createElement)(PluginsButton, { actions }),
+    actions.setSurface ? (0, import_react36.createElement)(ClassicReturn, { wide: false, actions }) : null
   );
   const content = (0, import_react36.createElement)(
     "div",
@@ -30911,6 +31008,14 @@ function BotReturn({ wide, useSurface, useRoster, actions }) {
     wide ? (0, import_react36.createElement)("span", { className: "bt-return-swap", "aria-hidden": true }, (0, import_react36.createElement)(SwitchIcon)) : null
   );
 }
+function ClassicReturn({ wide, actions }) {
+  return (0, import_react36.createElement)(
+    "button",
+    { type: "button", className: "bt-classic", "aria-label": t("Classic Agent mode"), title: t("Classic Agent mode"), onClick: () => actions.setSurface("agent") },
+    (0, import_react36.createElement)(SwitchIcon),
+    wide ? (0, import_react36.createElement)("span", { className: "bt-classic-name" }, t("Classic")) : null
+  );
+}
 var RETURN_CSS = `
 .bt-return{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--bt-return-fill);color:inherit;font:inherit;font-size:14px;line-height:20px;cursor:pointer;transition:background-color .12s ease}
 .bt-return:hover{background:var(--bt-return-fill-hover)}
@@ -30922,6 +31027,12 @@ var RETURN_CSS = `
 .bt-return-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bt-return-swap{display:inline-flex;flex:none;line-height:0;opacity:.55}
 .bt-return-swap svg{width:16px;height:16px}
+.bt-classic{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border:1px solid var(--bt-line);border-radius:999px;background:var(--bt-main);color:var(--bt-ink);font:inherit;font-size:14px;line-height:20px;cursor:pointer;transition:background-color .12s ease,transform .12s ease}
+.bt-classic:hover{background:var(--bt-hover)}
+.bt-classic:active{transform:scale(.96)}
+.bt-classic svg{flex:none;width:17px;height:17px}
+.bt-classic-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt-leftcol-foot-rail .bt-classic{width:36px;padding:0;border-radius:50%}
 `;
 function BrandMark({ size = 24 }) {
   return (0, import_react36.createElement)("span", { className: "bt-brand-whale" }, (0, import_react36.createElement)(BotMark, { look: MAIN_LOOK, size }));
