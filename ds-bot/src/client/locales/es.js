@@ -443,6 +443,7 @@ export const ES = {
   'GitHub addresses must start with https://': 'Las direcciones de GitHub deben empezar por https://',
   'This DSH cannot load connectors': 'Este DSH no puede cargar conectores',
   'No such connector': 'No existe ese conector',
+  'Classic': 'Clásico',
   'Classic Agent mode': 'Modo Agente clásico',
   'Switch to classic Agent mode': 'Cambiar al modo Agente clásico',
   'Bot mode': 'Modo Bot',

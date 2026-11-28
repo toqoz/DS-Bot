@@ -440,6 +440,7 @@ export const FR = {
   "GitHub addresses must start with https://": "Les adresses GitHub doivent commencer par https://",
   "This DSH cannot load connectors": "Ce DSH ne peut pas charger les connecteurs",
   "No such connector": "Connecteur introuvable",
+  "Classic": "Classique",
   "Classic Agent mode": "Mode Agent classique",
   "Switch to classic Agent mode": "Passer au mode Agent classique",
   "Bot mode": "Mode Bot",

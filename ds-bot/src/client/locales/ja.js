@@ -440,6 +440,7 @@ export const JA = {
   "GitHub addresses must start with https://": "GitHub のアドレスは https:// で始まる必要があります",
   "This DSH cannot load connectors": "この DSH ではコネクタを読み込めません",
   "No such connector": "該当するコネクタがありません",
+  "Classic": "クラシック",
   "Classic Agent mode": "クラシック Agent モード",
   "Switch to classic Agent mode": "クラシック Agent モードに切り替え",
   "Bot mode": "Bot モード",
